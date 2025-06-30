@@ -1,5 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReservationService } from '../../services/Reservation/reservation-service';
+import { Reservation } from '../../models/reservation';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-form',
@@ -10,23 +13,42 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ReservationForm implements OnInit {
   reservationForm: FormGroup = new FormGroup({});
   formBuilder = inject(FormBuilder);
+  reservationService = inject(ReservationService);
+  router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+
+  id: string | null = '';
+  title = 'New Reservation';
 
   ngOnInit(): void {
     this.reservationForm = this.formBuilder.group({
+      id: [''],
       checkInDate: ['', Validators.required],
       checkOutDate: ['', Validators.required],
       guestName: ['', [Validators.required, Validators.minLength(3)]],
       guestEmail: ['', [Validators.required, Validators.email]],
       roomNumber: [0, [Validators.required, Validators.min(1)]],
     });
+
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (this.id) {
+      let reservation = this.reservationService.getReservation(this.id);
+      if (reservation) this.reservationForm.patchValue(reservation!);
+      this.title = 'Edit Reservation';
+    }
   }
 
   onSubmit() {
-    const reservation = this.reservationForm.value;
     if (this.reservationForm.valid) {
-      console.log('Reservation:', reservation);
-    } else {
-      console.log('NOT VALID', reservation);
+      let reservation: Reservation = this.reservationForm.value;
+
+      if (this.id) {
+        this.reservationService.updateReservation(this.id, reservation);
+      } else {
+        this.reservationService.addReservation(reservation);
+      }
+
+      this.router.navigate(['/list']);
     }
   }
 }

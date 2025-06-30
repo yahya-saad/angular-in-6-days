@@ -1,11 +1,16 @@
 <div class="container mt-4">
   <h2 class="text-center text-primary">Welcome to the Reservation Portal</h2>
-  <div class="d-flex justify-content-center align-items-end gap-3 mt-4">
-    <button [routerLink]="['/new']" class="btn btn-primary">
-      Create a new Reservation
-    </button>
-    <button [routerLink]="['/list']" class="btn btn-outline-secondary">
-      View all reservations
-    </button>
+
+  <div class="row mt-4 justify-content-center text-center">
+    <div class="col-md-6 mb-2">
+      <a [routerLink]="['/new']" class="btn btn-primary w-75">
+        Create a new Reservation
+      </a>
+    </div>
+    <div class="col-md-6">
+      <a [routerLink]="['/list']" class="btn btn-outline-secondary w-75">
+        View all reservations
+      </a>
+    </div>
   </div>
 </div>

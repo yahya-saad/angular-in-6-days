@@ -1,0 +1,21 @@
+<label *ngIf="label()" [for]="controlName()" class="form-label">
+  {{ label() }}
+</label>
+
+<input
+  [type]="type()"
+  [id]="controlName()"
+  [formControl]="control"
+  [placeholder]="placeholder()"
+  [min]="min()"
+  class="form-control"
+  [ngClass]="{
+    'is-invalid': control.touched && control.invalid
+  }"
+/>
+
+<div class="invalid-feedback" *ngIf="control.touched && control.errors">
+  <div *ngFor="let errorKey of objectKeys(control.errors || {})">
+    {{ errors()[errorKey] }}
+  </div>
+</div>

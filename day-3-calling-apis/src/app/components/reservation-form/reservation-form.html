@@ -1,0 +1,95 @@
+<div class="container p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary">{{ title }}</h2>
+    <a routerLink="/" class="btn btn-outline-primary btn-sm">← Back to Home</a>
+  </div>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="row">
+      <!-- Check-In Date -->
+      <div class="col-md-6 mb-3">
+        <app-form-input
+          [form]="reservationForm"
+          controlName="checkInDate"
+          label="Check-In Date"
+          type="date"
+          [errors]="{ required: 'Check-In date is required.' }"
+        />
+      </div>
+
+      <!-- Check-Out Date -->
+      <div class="col-md-6 mb-3">
+        <app-form-input
+          [form]="reservationForm"
+          controlName="checkOutDate"
+          label="Check-Out Date"
+          type="date"
+          [errors]="{ required: 'Check-Out date is required.' }"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Guest Name -->
+      <div class="col-md-6 mb-3">
+        <app-form-input
+          [form]="reservationForm"
+          controlName="guestName"
+          label="Guest Name"
+          placeholder="Enter full name"
+          [errors]="{
+            required: 'Name is required.',
+            minlength: 'Name must be at least 3 characters.'
+          }"
+        />
+      </div>
+
+      <!-- Guest Email -->
+      <div class="col-md-6 mb-3">
+        <app-form-input
+          [form]="reservationForm"
+          controlName="guestEmail"
+          label="Guest Email"
+          type="email"
+          placeholder="example@email.com"
+          [errors]="{
+            required: 'Email is required.',
+            email: 'Please enter a valid email address.'
+          }"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <!-- Room Number -->
+      <div class="col-md-6 mb-3">
+        <app-form-input
+          [form]="reservationForm"
+          controlName="roomNumber"
+          label="Room Number"
+          type="number"
+          placeholder="Room number"
+          min="0"
+          [errors]="{
+            required: 'Room number is required.',
+            min: 'Room number must be at least 1.'
+          }"
+        />
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+      <button
+        type="submit"
+        class="btn w-50"
+        [disabled]="reservationForm.invalid"
+        [ngClass]="{
+          'btn-success': reservationForm.valid,
+          'btn-secondary': reservationForm.invalid
+        }"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

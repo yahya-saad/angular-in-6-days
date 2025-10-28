@@ -1,0 +1,22 @@
+@if (label()) {
+<label [for]="controlName()" class="form-label">{{ label() }}</label>
+} @if(control) {
+<input
+  [id]="controlName()"
+  [type]="type()"
+  [formControl]="control"
+  [placeholder]="placeholder()"
+  [min]="min()"
+  class="form-control"
+  [ngClass]="{
+    'is-invalid': control && control.touched && control.invalid,
+    'is-valid': control && control.touched && control.valid
+  }"
+/>
+} @if(control && control.touched && control.errors) {
+<div class="invalid-feedback">
+  @for (error of control.errors | keyvalue; track $index) {
+  {{ errorMessages()[error.key] }}
+  }
+</div>
+}
